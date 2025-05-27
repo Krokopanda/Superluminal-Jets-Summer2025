@@ -54,6 +54,7 @@ with basic_model:
     mu = alpha + beta[0] * X1 + beta[1] * X2
 
     # Likelihood (sampling distribution) of observations
+    # This is what we would have to change in our case, to account for the prob. functions in MDS's notes
     Y_obs = pm.Normal("Y_obs", mu=mu, sigma=sigma, observed=Y)
     
 with basic_model:
