@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     54986,       1205]
-NotebookOptionsPosition[     54182,       1177]
-NotebookOutlinePosition[     54522,       1192]
-CellTagsIndexPosition[     54479,       1189]
+NotebookDataLength[     70506,       1589]
+NotebookOptionsPosition[     66497,       1527]
+NotebookOutlinePosition[     66891,       1543]
+CellTagsIndexPosition[     66848,       1540]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -34,7 +34,8 @@ Seifert\[CloseCurlyQuote]s ",
   ButtonNote->"https://arxiv.org/abs/0909.3118"],
  " on generalized bumblebee models.\nMake ",
  Cell[BoxData[
-  FormBox["n", TraditionalForm]]],
+  FormBox["n", TraditionalForm]],ExpressionUUID->
+  "6f0bde8f-aa6c-4956-83db-fc6832b78b8b"],
  " random \[OpenCurlyDoubleQuote]sources\[CloseCurlyDoubleQuote] (postions \
 and velocities): ",
  Cell[BoxData[
@@ -48,7 +49,7 @@ and velocities): ",
       RowBox[{
        RowBox[{"{", 
         RowBox[{"vx", ",", "vy", ",", "vz"}], "}"}], "/", "c"}]}]}], "|>"}], 
-   TraditionalForm]]],
+   TraditionalForm]],ExpressionUUID->"68e2ca93-337f-4aba-bb69-0ba399c531b5"],
  "\nUsing an \[OpenCurlyDoubleQuote]effective metric\[CloseCurlyDoubleQuote] ",
  Cell[BoxData[
   FormBox[
@@ -69,7 +70,8 @@ and velocities): ",
        {
         SubscriptBox["\[Alpha]", "tz"], "0", "0", 
         SubscriptBox["\[Alpha]", "zz"]}
-      }], ")"}]}], TraditionalForm]]],
+      }], ")"}]}], TraditionalForm]],ExpressionUUID->
+  "501f4365-6562-4551-a3cb-ebff37abae9a"],
  ", find which of these sources are superluminal according to the \
 direction-dependent speed of light.\nThen, plot these sources with the \
 Mollweide projection according to apparent speed relative to a significant \
@@ -86,18 +88,28 @@ well as the map projection in both SVG and PNG.\nAugmented source structure: ",
       RowBox[{
        RowBox[{"{", 
         RowBox[{"vx", ",", "vy", ",", "vz"}], "}"}], "/", "c"}]}], ",", 
-     RowBox[{"\"\<i\>\"", "\[Rule]", Cell["inclination angle"]}], ",", 
-     RowBox[{"\"\<\[Beta]\>\"", "\[Rule]", Cell["speed"]}], ",", 
-     RowBox[{"\"\<\[Beta]app\>\"", "\[Rule]", Cell["apparent speed"]}]}], 
-    "|>"}], TraditionalForm]]]
+     RowBox[{
+     "\"\<i\>\"", "\[Rule]", Cell[
+      "inclination angle",ExpressionUUID->
+       "08e0274a-cbc5-41e9-9e17-464655289779"]}], ",", 
+     RowBox[{
+     "\"\<\[Beta]\>\"", "\[Rule]", Cell[
+      "speed",ExpressionUUID->"0eeffb0b-2982-4bf5-b748-1b64f0dcb524"]}], ",", 
+     RowBox[{
+     "\"\<\[Beta]app\>\"", "\[Rule]", Cell[
+      "apparent speed",ExpressionUUID->
+       "39d910b9-6de4-46cb-a808-ca7ae1339b97"]}]}], "|>"}], TraditionalForm]],
+  ExpressionUUID->"3506b37b-9f2a-42e0-ba6b-a0b7011ba9b1"]
 }], "Text",
  CellChangeTimes->{{3.6787071753697844`*^9, 3.6787071890156655`*^9}, {
-  3.6787072232417793`*^9, 3.6787072643740764`*^9}, {3.6787073220287533`*^9, 
-  3.678707480054549*^9}, {3.6787075136148214`*^9, 3.678707548468978*^9}, {
-  3.6787075821482706`*^9, 3.678707595959346*^9}, {3.678707650491436*^9, 
-  3.6787080227364254`*^9}, {3.6787146980727835`*^9, 3.6787147108649473`*^9}, {
-  3.678792756122177*^9, 3.6787928001686573`*^9}, {3.6788150327574854`*^9, 
-  3.678815042051643*^9}}],
+   3.6787072232417793`*^9, 3.6787072643740764`*^9}, {3.6787073220287533`*^9, 
+   3.678707480054549*^9}, {3.6787075136148214`*^9, 3.678707548468978*^9}, {
+   3.6787075821482706`*^9, 3.678707595959346*^9}, {3.678707650491436*^9, 
+   3.6787080227364254`*^9}, {3.6787146980727835`*^9, 
+   3.6787147108649473`*^9}, {3.678792756122177*^9, 3.6787928001686573`*^9}, {
+   3.6788150327574854`*^9, 3.678815042051643*^9}, 
+   3.957427560809655*^9},ExpressionUUID->"91d76ee9-a635-405a-ba27-\
+20f20e091e2d"],
 
 Cell[CellGroupData[{
 
@@ -167,7 +179,8 @@ Cell[BoxData[
    3.6787174908696513`*^9}, {3.678717560995387*^9, 3.6787175820470576`*^9}, {
    3.678718175418524*^9, 3.678718236299117*^9}, {3.678789899380986*^9, 
    3.67878990097062*^9}, {3.6787903417807865`*^9, 3.6787903509884415`*^9}, 
-   3.6787928428018274`*^9}],
+   3.6787928428018274`*^9},
+ CellLabel->"In[18]:=",ExpressionUUID->"41bac41f-932e-4740-9a8d-cc347c3f8ba3"],
 
 Cell[BoxData[
  RowBox[{
@@ -238,7 +251,8 @@ Cell[BoxData[
    3.6787174908696513`*^9}, {3.678717560995387*^9, 3.6787175820470576`*^9}, {
    3.678718175418524*^9, 3.678718236299117*^9}, {3.678789899380986*^9, 
    3.67878990097062*^9}, {3.6787903417807865`*^9, 3.6787903509884415`*^9}, 
-   3.6787928428018274`*^9}],
+   3.6787928428018274`*^9},
+ CellLabel->"In[21]:=",ExpressionUUID->"260841ec-31d5-4c44-9d56-39abbc682acc"],
 
 Cell[BoxData[
  RowBox[{
@@ -450,7 +464,8 @@ Cell[BoxData[
    3.678724723503974*^9, 3.6787247429129148`*^9}, 3.6787247804986734`*^9, {
    3.6787899248319373`*^9, 3.6787899649518137`*^9}, {3.6787904029278035`*^9, 
    3.6787904578739414`*^9}, {3.678792888215858*^9, 3.678792918106028*^9}, {
-   3.67881495428089*^9, 3.678814980572141*^9}}],
+   3.67881495428089*^9, 3.678814980572141*^9}},
+ CellLabel->"In[24]:=",ExpressionUUID->"3b59f893-b86a-4d98-8059-3df794fa9b22"],
 
 Cell[BoxData[
  RowBox[{
@@ -770,18 +785,22 @@ Cell[BoxData[
             "dir", "<>", "\"\</data_\>\"", "<>", "name", "<>", 
              "\"\<.csv\>\""}], ",", "\[IndentingNewLine]", "table", ",", 
             "\"\<CSV\>\""}], "]"}], ";", "\[IndentingNewLine]", 
-          RowBox[{"Export", "[", 
+          RowBox[{"(*", 
            RowBox[{
-            RowBox[{
-            "dir", "<>", "\"\</plots/svg/plot_\>\"", "<>", "name", "<>", 
-             "\"\<.svg\>\""}], ",", "proj", ",", "\"\<SVG\>\""}], "]"}], ";", 
-          "\[IndentingNewLine]", 
-          RowBox[{"Export", "[", 
+            RowBox[{"Export", "[", 
+             RowBox[{
+              RowBox[{
+              "dir", "<>", "\"\</plots/svg/plot_\>\"", "<>", "name", "<>", 
+               "\"\<.svg\>\""}], ",", "proj", ",", "\"\<SVG\>\""}], "]"}], 
+            ";"}], "*)"}], "\[IndentingNewLine]", 
+          RowBox[{"(*", 
            RowBox[{
-            RowBox[{
-            "dir", "<>", "\"\</plots/plot_\>\"", "<>", "name", "<>", 
-             "\"\<.png\>\""}], ",", "proj", ",", "\"\<PNG\>\""}], "]"}], ";", 
-          "\[IndentingNewLine]", 
+            RowBox[{"Export", "[", 
+             RowBox[{
+              RowBox[{
+              "dir", "<>", "\"\</plots/plot_\>\"", "<>", "name", "<>", 
+               "\"\<.png\>\""}], ",", "proj", ",", "\"\<PNG\>\""}], "]"}], 
+            ";"}], "*)"}], "\[IndentingNewLine]", 
           RowBox[{"Return", "@", "name"}]}]}], "\[IndentingNewLine]", "]"}]}],
        "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{"(*", " ", 
@@ -812,14 +831,14 @@ Cell[BoxData[
           RowBox[{
            RowBox[{"exportSim", "[", 
             RowBox[{"dir", ",", "#"}], "]"}], "&"}], ",", "sims"}], "]"}], 
-        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], "\n", 
    RowBox[{"(*", " ", 
     RowBox[{
      RowBox[{"List", " ", "of", " ", "possible", " ", 
       RowBox[{"{", "\[Alpha]\[Mu]\[Nu]", "}"}]}], ",", " ", 
      RowBox[{
      "with", " ", "the", " ", "control", " ", "case", " ", "as", " ", "the", 
-      " ", "first", " ", "element"}]}], " ", "*)"}], "\n", 
+      " ", "first", " ", "element"}]}], " ", "*)"}], "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"\[Alpha]s", "=", 
      RowBox[{
@@ -1164,21 +1183,353 @@ Cell[BoxData[
    3.6787933854915156`*^9, 3.6787935769875703`*^9}, {3.6787936645825653`*^9, 
    3.6787936654233294`*^9}, {3.678814538854096*^9, 3.6788145593831244`*^9}, {
    3.67881459044863*^9, 3.678814724398428*^9}, {3.678815087735165*^9, 
-   3.678815095396894*^9}, {3.6788151329676476`*^9, 3.67881515735985*^9}}]
+   3.678815095396894*^9}, {3.6788151329676476`*^9, 3.67881515735985*^9}, {
+   3.957429277886567*^9, 
+   3.957429298951262*^9}},ExpressionUUID->"9dee214f-ef0e-4284-87e2-\
+83d3931aedd0"]
 }, Open  ]],
+
+Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"simulate", "[", 
-  RowBox[{"10000", ",", 
+  RowBox[{"100", ",", 
    RowBox[{
     RowBox[{"NotebookDirectory", "[", "]"}], "<>", 
     "\"\</testbehemoth\>\""}]}], "]"}]], "Input",
- CellChangeTimes->{{3.67881518133574*^9, 3.678815197587379*^9}}]
+ CellChangeTimes->{{3.67881518133574*^9, 3.678815197587379*^9}, {
+  3.957428624965197*^9, 
+  3.957428626021719*^9}},ExpressionUUID->"144a28b0-5ff1-4fed-9921-\
+23077a4d90bb"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427672221922*^9},
+ CellLabel->
+  "(kernel 8)",ExpressionUUID->"a58b02f4-3b04-44a2-969c-5145603dcd08"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427673595278*^9},
+ CellLabel->
+  "(kernel 12)",ExpressionUUID->"553ec1ab-f793-49f9-96aa-e415cfb497fe"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427675583219*^9},
+ CellLabel->
+  "(kernel 9)",ExpressionUUID->"f7c69776-9f46-4a86-be09-1455c8107423"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427680462422*^9},
+ CellLabel->
+  "(kernel 10)",ExpressionUUID->"e16899b8-e028-424e-96f4-4275cd8e7b5e"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427692098825*^9},
+ CellLabel->
+  "(kernel 5)",ExpressionUUID->"b88f9569-3492-46d9-9f59-baf0c4b498c5"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427692419726*^9},
+ CellLabel->
+  "(kernel 6)",ExpressionUUID->"b689e696-c26f-4159-9796-d28997c9955a"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427696811441*^9},
+ CellLabel->
+  "(kernel 11)",ExpressionUUID->"13bb103c-a886-4e45-92bb-30d1591625fd"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427703172023*^9},
+ CellLabel->
+  "(kernel 7)",ExpressionUUID->"7a1b7ff6-0423-4d27-aefb-5106d6e404b7"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427705943329*^9},
+ CellLabel->
+  "(kernel 13)",ExpressionUUID->"0f1545f5-074e-4032-9093-88f174ec375e"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427722763321*^9},
+ CellLabel->
+  "(kernel 14)",ExpressionUUID->"3e3b682e-0daf-456a-be4e-05487be19005"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427723806892*^9},
+ CellLabel->
+  "(kernel 15)",ExpressionUUID->"395fbef7-cdcf-48e9-a73a-9994a4bad237"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427724646254*^9},
+ CellLabel->
+  "(kernel 1)",ExpressionUUID->"80b31853-2fb4-45bc-b1a2-c6819dcecbd5"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427731506543*^9},
+ CellLabel->
+  "(kernel 4)",ExpressionUUID->"56108f3f-7721-4019-9204-29c947387c24"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427732092771*^9},
+ CellLabel->
+  "(kernel 2)",ExpressionUUID->"0be342d3-2339-4ee2-9b44-9133ef881ffc"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427738249955*^9},
+ CellLabel->
+  "(kernel 3)",ExpressionUUID->"66452ba7-e826-43a6-a832-bb95c8f8c78a"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427745075309*^9},
+ CellLabel->
+  "(kernel 8)",ExpressionUUID->"fc985a9e-25d9-44a8-9e27-24ed076a32fa"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.9574277546335573`*^9},
+ CellLabel->
+  "(kernel 16)",ExpressionUUID->"7de4087d-3882-4f4d-b81a-d1365d7a1940"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427759329095*^9},
+ CellLabel->
+  "(kernel 11)",ExpressionUUID->"3cd406f0-c192-4888-a7d2-66031eb86db1"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.9574277612220697`*^9},
+ CellLabel->
+  "(kernel 9)",ExpressionUUID->"3a68b5a6-5ab7-4584-aa4f-9ee7399b3ca5"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427763141871*^9},
+ CellLabel->
+  "(kernel 13)",ExpressionUUID->"f2370d83-6eb9-4fd7-a4f5-0cef16ccb94d"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427765210047*^9},
+ CellLabel->
+  "(kernel 10)",ExpressionUUID->"221a70dc-8a57-41c1-b2d0-b16b8ab4b235"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427765499776*^9},
+ CellLabel->
+  "(kernel 12)",ExpressionUUID->"de4a4f57-e1a3-4a59-921e-938d71ccfc48"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427765548068*^9},
+ CellLabel->
+  "(kernel 7)",ExpressionUUID->"ef91bb5f-6898-4960-9713-aac1a8fac3df"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427770973509*^9},
+ CellLabel->
+  "(kernel 5)",ExpressionUUID->"42d55593-faf4-4068-93f5-7479653205ed"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427773333015*^9},
+ CellLabel->
+  "(kernel 6)",ExpressionUUID->"d6525661-eab0-41dc-8cbf-132972072bc5"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.9574277850355797`*^9},
+ CellLabel->
+  "(kernel 1)",ExpressionUUID->"c1116b07-1e0c-436f-a56d-5381991b15c5"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.9574277936302156`*^9},
+ CellLabel->
+  "(kernel 3)",ExpressionUUID->"8f007174-6689-4400-abdc-c811cfd8206e"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.95742779461989*^9},
+ CellLabel->
+  "(kernel 2)",ExpressionUUID->"c2f3c5e4-6b33-4afd-adf8-8871b9dfa05c"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Rasterize", "::", "bigraster"}], "MessageName"], " ", ":", 
+  "  ", "\<\"Not enough memory available to rasterize \
+\\!\\(\\*RowBox[{\\\"Notebook\\\"}]\\) expression.\"\>"}]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.957427795369546*^9},
+ CellLabel->
+  "(kernel 4)",ExpressionUUID->"306474c7-23fd-4052-a385-a118de37c1e8"]
+}, Open  ]]
+}, Open  ]]
 },
-WindowSize->{681, 676},
-WindowMargins->{{Automatic, -7}, {Automatic, 0}},
-FrontEndVersion->"10.2 for Microsoft Windows (64-bit) (July 7, 2015)",
-StyleDefinitions->"Default.nb"
+WindowSize->{932, 936},
+WindowMargins->{{303, Automatic}, {20, Automatic}},
+FrontEndVersion->"13.3 for Mac OS X ARM (64-bit) (July 24, 2023)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"b9c68f5b-d95c-41c4-bbae-9cedfc3ac18a"
 ]
 (* End of Notebook Content *)
 
@@ -1191,24 +1542,56 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 3149, 79, 279, "Text"],
+Cell[558, 20, 3682, 91, 301, "Text",ExpressionUUID->"91d76ee9-a635-405a-ba27-20f20e091e2d"],
 Cell[CellGroupData[{
-Cell[3732, 103, 3083, 66, 172, "Input",
+Cell[4265, 115, 3162, 67, 115, "Input",ExpressionUUID->"41bac41f-932e-4740-9a8d-cc347c3f8ba3",
  CellGroupingRules->{GroupTogetherGrouping, 10000.},
  InitializationGroup->True],
-Cell[6818, 171, 3354, 69, 132, "Input",
+Cell[7430, 184, 3433, 70, 115, "Input",ExpressionUUID->"260841ec-31d5-4c44-9d56-39abbc682acc",
  CellGroupingRules->{GroupTogetherGrouping, 10000.},
  InitializationGroup->True],
-Cell[10175, 242, 9670, 210, 563, "Input",
+Cell[10866, 256, 9749, 211, 538, "Input",ExpressionUUID->"3b59f893-b86a-4d98-8059-3df794fa9b22",
  CellGroupingRules->{GroupTogetherGrouping, 10000.},
  InitializationGroup->True],
-Cell[19848, 454, 34071, 712, 1953, "Input",
+Cell[20618, 469, 34316, 719, 1515, "Input",ExpressionUUID->"9dee214f-ef0e-4284-87e2-83d3931aedd0",
  CellGroupingRules->{GroupTogetherGrouping, 10000.},
  InitializationGroup->True]
 }, Open  ]],
-Cell[53934, 1169, 244, 6, 31, "Input"]
+Cell[CellGroupData[{
+Cell[54971, 1193, 351, 9, 30, "Input",ExpressionUUID->"144a28b0-5ff1-4fed-9921-23077a4d90bb"],
+Cell[CellGroupData[{
+Cell[55347, 1206, 380, 9, 24, "Print",ExpressionUUID->"a58b02f4-3b04-44a2-969c-5145603dcd08"],
+Cell[55730, 1217, 381, 9, 38, "Print",ExpressionUUID->"553ec1ab-f793-49f9-96aa-e415cfb497fe"],
+Cell[56114, 1228, 380, 9, 24, "Print",ExpressionUUID->"f7c69776-9f46-4a86-be09-1455c8107423"],
+Cell[56497, 1239, 381, 9, 38, "Print",ExpressionUUID->"e16899b8-e028-424e-96f4-4275cd8e7b5e"],
+Cell[56881, 1250, 380, 9, 24, "Print",ExpressionUUID->"b88f9569-3492-46d9-9f59-baf0c4b498c5"],
+Cell[57264, 1261, 380, 9, 24, "Print",ExpressionUUID->"b689e696-c26f-4159-9796-d28997c9955a"],
+Cell[57647, 1272, 381, 9, 38, "Print",ExpressionUUID->"13bb103c-a886-4e45-92bb-30d1591625fd"],
+Cell[58031, 1283, 380, 9, 24, "Print",ExpressionUUID->"7a1b7ff6-0423-4d27-aefb-5106d6e404b7"],
+Cell[58414, 1294, 381, 9, 38, "Print",ExpressionUUID->"0f1545f5-074e-4032-9093-88f174ec375e"],
+Cell[58798, 1305, 381, 9, 38, "Print",ExpressionUUID->"3e3b682e-0daf-456a-be4e-05487be19005"],
+Cell[59182, 1316, 381, 9, 38, "Print",ExpressionUUID->"395fbef7-cdcf-48e9-a73a-9994a4bad237"],
+Cell[59566, 1327, 380, 9, 24, "Print",ExpressionUUID->"80b31853-2fb4-45bc-b1a2-c6819dcecbd5"],
+Cell[59949, 1338, 380, 9, 24, "Print",ExpressionUUID->"56108f3f-7721-4019-9204-29c947387c24"],
+Cell[60332, 1349, 380, 9, 24, "Print",ExpressionUUID->"0be342d3-2339-4ee2-9b44-9133ef881ffc"],
+Cell[60715, 1360, 380, 9, 24, "Print",ExpressionUUID->"66452ba7-e826-43a6-a832-bb95c8f8c78a"],
+Cell[61098, 1371, 380, 9, 24, "Print",ExpressionUUID->"fc985a9e-25d9-44a8-9e27-24ed076a32fa"],
+Cell[61481, 1382, 383, 9, 38, "Print",ExpressionUUID->"7de4087d-3882-4f4d-b81a-d1365d7a1940"],
+Cell[61867, 1393, 381, 9, 38, "Print",ExpressionUUID->"3cd406f0-c192-4888-a7d2-66031eb86db1"],
+Cell[62251, 1404, 382, 9, 24, "Print",ExpressionUUID->"3a68b5a6-5ab7-4584-aa4f-9ee7399b3ca5"],
+Cell[62636, 1415, 381, 9, 38, "Print",ExpressionUUID->"f2370d83-6eb9-4fd7-a4f5-0cef16ccb94d"],
+Cell[63020, 1426, 381, 9, 38, "Print",ExpressionUUID->"221a70dc-8a57-41c1-b2d0-b16b8ab4b235"],
+Cell[63404, 1437, 381, 9, 38, "Print",ExpressionUUID->"de4a4f57-e1a3-4a59-921e-938d71ccfc48"],
+Cell[63788, 1448, 380, 9, 24, "Print",ExpressionUUID->"ef91bb5f-6898-4960-9713-aac1a8fac3df"],
+Cell[64171, 1459, 380, 9, 24, "Print",ExpressionUUID->"42d55593-faf4-4068-93f5-7479653205ed"],
+Cell[64554, 1470, 380, 9, 24, "Print",ExpressionUUID->"d6525661-eab0-41dc-8cbf-132972072bc5"],
+Cell[64937, 1481, 382, 9, 24, "Print",ExpressionUUID->"c1116b07-1e0c-436f-a56d-5381991b15c5"],
+Cell[65322, 1492, 382, 9, 24, "Print",ExpressionUUID->"8f007174-6689-4400-abdc-c811cfd8206e"],
+Cell[65707, 1503, 379, 9, 24, "Print",ExpressionUUID->"c2f3c5e4-6b33-4afd-adf8-8871b9dfa05c"],
+Cell[66089, 1514, 380, 9, 24, "Print",ExpressionUUID->"306474c7-23fd-4052-a385-a118de37c1e8"]
+}, Open  ]]
+}, Open  ]]
 }
 ]
 *)
 
-(* End of internal cache information *)
