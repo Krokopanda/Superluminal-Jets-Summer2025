@@ -29,29 +29,30 @@ def my_model(x,z):
     return ((z**2)*np.sqrt(x**2+z**2-1)+(x**2-z**2)*\
             np.arctan(np.sqrt(x**2+z**2-1)))/((x**2+z**2)**2)
 
-def my_loglike(x, z, sigma, data):
+def my_loglike(x, z, data):
     # We fail explicitly if inputs are not numerical types for the sake of this tutorial
     # As defined, my_loglike would actually work fine with PyTensor variables!
-    for param in (x, z, sigma, data):
+    for param in (x, z, data):
         if not isinstance(param, (float, np.ndarray)):
             raise TypeError(f"Invalid input type to loglike: {type(param)}")
-    model = my_model(x,z)
+    model = 1
     #!!! Not sure what to quite replace this with but tbd
-    return -0.5 * ((data - model) / sigma) ** 2 - np.log(np.sqrt(2 * np.pi)) - np.log(sigma)
+    return np.log(((z**2)*np.sqrt(x**2+z**2-1)+(x**2-z**2)*\
+            np.arctan(np.sqrt(x**2+z**2-1)))/((x**2+z**2)**2))
     # This is the log-likelihood for a Gaussian; we'd want to change this accordingly
     
 
 # define a pytensor Op for our likelihood function
 
 class LogLike(Op):
-    def make_node(self, x, z, sigma, data) -> Apply:
+    def make_node(self, x, z, data) -> Apply:
         # Convert inputs to tensor variables
         x = pt.as_tensor(x)
         z = pt.as_tensor(z)
-        sigma = pt.as_tensor(sigma)
+        #sigma = pt.as_tensor(sigma)
         data = pt.as_tensor(data)
 
-        inputs = [x, z, sigma, data]
+        inputs = [x, z, data]
         # Define output type, in our case a vector of likelihoods
         # with the same dimensions and same data type as data
         # If data must always be a vector, we could have hard-coded
@@ -64,10 +65,10 @@ class LogLike(Op):
     def perform(self, node: Apply, inputs: list[np.ndarray], outputs: list[list[None]]) -> None:
         # This is the method that compute numerical output
         # given numerical inputs. Everything here is numpy arrays
-        x, z, sigma, data = inputs  # this will contain my variables
+        x, z, data = inputs  # this will contain my variables
 
         # call our numpy log-likelihood function
-        loglike_eval = my_loglike(x,z,sigma,data)
+        loglike_eval = my_loglike(x,z,data)
 
         # Save the result in the outputs list provided by PyTensor
         # There is one list per output, each containing another list
@@ -76,36 +77,37 @@ class LogLike(Op):
         
 # set up our data
 N = 10  # number of data points
-sigma = 1.0  # standard deviation of noise
+#sigma = 1.0  # standard deviation of noise
 x = np.linspace(0.0, 3.0, N)
 
 xtrue = 2  # Keeping x as the same range
 ztrue = 1.0
 
-truemodel = my_model(xtrue, ztrue)
+#truemodel = my_model(xtrue, ztrue)
+truemodel = 1
 
 # make data
 rng = np.random.default_rng(716743)
-data = sigma * rng.normal(size=N) + truemodel
+data = rng.normal(size=N) + truemodel
 
 # create our Op
 loglike_op = LogLike()
 
-test_out = loglike_op(xtrue, ztrue, sigma, data)
+test_out = loglike_op(xtrue, ztrue,data)
 
-def custom_dist_loglike(data, x, z, sigma):
+def custom_dist_loglike(data, x, z,):
     # data, or observed is always passed as the first input of CustomDist
-    return loglike_op(x, z, sigma, data)
+    return loglike_op(x, z, data)
 
 # use PyMC to sampler from log-likelihood
 with pm.Model() as no_grad_model:
     # uniform priors on m and c
-    m = pm.Uniform("x", lower=0.0, upper=3.0, initval=xtrue)
+    x = pm.Uniform("x", lower=0.0, upper=3.0, initval=xtrue)
     z = pm.Uniform("z", lower=1.0, upper=1.0, initval=ztrue)
 
     # use a CustomDist with a custom logp function
     likelihood = pm.CustomDist(
-        "likelihood", x, z, sigma, observed=data, logp=custom_dist_loglike
+        "likelihood", x, z, observed=data, logp=custom_dist_loglike
     )
     
 ip = no_grad_model.initial_point()
