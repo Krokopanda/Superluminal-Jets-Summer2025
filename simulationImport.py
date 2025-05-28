@@ -18,8 +18,8 @@ thetas = []
 phis = []
 for i in range(len(dataImport)):
     r=np.sqrt(dataImport.iloc[i,0]**2+dataImport.iloc[i,1]**2+dataImport.iloc[i,2]**2)
-    theta = np.arctan(dataImport.iloc[i,1]/dataImport.iloc[i,0])
-    phi = np.arccos(np.arctan(dataImport.iloc[i,2]/r))
+    phi = np.arctan2(dataImport.iloc[i,1],dataImport.iloc[i,0])
+    theta = np.arccos(np.arctan(dataImport.iloc[i,2]/r))
     phis.append(phi)
     thetas.append(theta)
     radii.append(r)

@@ -23,35 +23,38 @@ print(f"Running on PyMC v{pm.__version__}")
 # %config InlineBackend.figure_format = 'retina'
 az.style.use("arviz-darkgrid")
 
-def my_model():
+def my_model(m, c, x):
     return 1
 
 def my_loglike(m, c, sigma, x, data):
     # We fail explicitly if inputs are not numerical types for the sake of this tutorial
     # As defined, my_loglike would actually work fine with PyTensor variables!
-    for param in (x,z):
+    for param in (m, c, sigma, x, data):
         if not isinstance(param, (float, np.ndarray)):
             raise TypeError(f"Invalid input type to loglike: {type(param)}")
     model = my_model(m, c, x)
-    return ((z**2)*np.sqrt(x**2+z**2-1)+(x**2-z**2)*\
-            np.arctan(np.sqrt(x**2+z**2-1)))/((x**2+z**2)**2)
+    return np.log(((c**2)*np.sqrt(m**2+c**2-1)+(m**2-c**2)*\
+            np.arctan(np.sqrt(m**2+c**2-1)))/((m**2+c**2)**2))
     # This is the log-likelihood for a Gaussian; we'd want to change this accordingly
     
 
 # define a pytensor Op for our likelihood function
 
 class LogLike(Op):
-    def make_node(self, x,z) -> Apply:
+    def make_node(self, m, c, sigma, x, data) -> Apply:
         # Convert inputs to tensor variables
+        m = pt.as_tensor(m)
+        c = pt.as_tensor(c)
+        sigma = pt.as_tensor(sigma)
         x = pt.as_tensor(x)
-        z = pt.as_tensor(z)
+        data = pt.as_tensor(data)
 
-        inputs = [x,z]
+        inputs = [m, c, sigma, x, data]
         # Define output type, in our case a vector of likelihoods
         # with the same dimensions and same data type as data
         # If data must always be a vector, we could have hard-coded
-        outputs = [pt.vector()]
-        #outputs = [data.type()]
+        # outputs = [pt.vector()]
+        outputs = [data.type()]
 
         # Apply is an object that combines inputs, outputs and an Op (self)
         return Apply(self, inputs, outputs)
@@ -59,10 +62,10 @@ class LogLike(Op):
     def perform(self, node: Apply, inputs: list[np.ndarray], outputs: list[list[None]]) -> None:
         # This is the method that compute numerical output
         # given numerical inputs. Everything here is numpy arrays
-        x,z = inputs  # this will contain my variables
+        m, c, sigma, x, data = inputs  # this will contain my variables
 
         # call our numpy log-likelihood function
-        loglike_eval = my_loglike(x,z)
+        loglike_eval = my_loglike(m, c, sigma, x, data)
 
         # Save the result in the outputs list provided by PyTensor
         # There is one list per output, each containing another list
@@ -71,35 +74,36 @@ class LogLike(Op):
         
 # set up our data
 N = 10  # number of data points
+sigma = 1.0  # standard deviation of noise
 x = np.linspace(0.0, 3.0, N)
+#Revisit
+mtrue = 0.4  # true gradient
+ctrue = 1  # true y-intercept
 
-xtrue = 0.4  # true gradient
-ztrue = 3.0  # true y-intercept
+truemodel = my_model(mtrue, ctrue, x)
 
-#truemodel = my_model(xtrue, ztrue)
-truemodel = my_model()
 # make data
 rng = np.random.default_rng(716743)
-data = rng.normal(size=N) + truemodel
+data = sigma * rng.normal(size=N) + truemodel
 
 # create our Op
 loglike_op = LogLike()
 
-test_out = loglike_op(xtrue, ztrue)
+test_out = loglike_op(mtrue, ctrue, sigma, x, data)
 
-def custom_dist_loglike(data,x,z):
+def custom_dist_loglike(data, m, c, sigma, x):
     # data, or observed is always passed as the first input of CustomDist
-    return loglike_op(x,z)
+    return loglike_op(m, c, sigma, x, data)
 
 # use PyMC to sampler from log-likelihood
 with pm.Model() as no_grad_model:
     # uniform priors on m and c
-    x = pm.Uniform("x", lower=-10.0, upper=10.0, initval=xtrue)
-    z = pm.Uniform("z", lower=-10.0, upper=10.0, initval=ztrue)
+    m = pm.Uniform("m", lower=-10.0, upper=10.0, initval=mtrue)
+    c = pm.Uniform("c", lower=-10.0, upper=10.0, initval=ctrue)
 
     # use a CustomDist with a custom logp function
     likelihood = pm.CustomDist(
-        "likelihood", x, z, logp=custom_dist_loglike
+        "likelihood", m, c, sigma, x, observed=data, logp=custom_dist_loglike
     )
     
 ip = no_grad_model.initial_point()
@@ -109,4 +113,4 @@ with no_grad_model:
     idata_no_grad = pm.sample(3000, tune=1000)
 
 # plot the traces
-az.plot_trace(idata_no_grad, lines=[("x", {}, xtrue), ("z", {}, ztrue)]);
+az.plot_trace(idata_no_grad, lines=[("m", {}, mtrue), ("c", {}, ctrue)]);
