@@ -35,11 +35,19 @@ def my_model(c, x):
 
 
 def my_loglike(c, sigma, x, data):
-    arg = np.maximum(data**2 + c**2 - 1, 1e-9)  # Keep inside sqrt positive
-    numerator = (c**2)*np.sqrt(arg) + (data**2 - c**2)*np.arctan(np.sqrt(arg))
-    denominator = (data**2 + c**2)**2
-    return np.log(numerator / denominator)
+    #c is the inverse speed of light, sigma is irrelevant, x is irrelevant, and data is the inverse observed tangent velocity
 
+    if c<=1:
+        arg = np.maximum(data**2 + c**2 - 1, 1e-12)  # Keep inside sqrt positive
+        #arg = data**2 + c**2 - 1
+        numerator = (c**2)*np.sqrt(arg) + (data**2 - c**2)*np.arctan(np.sqrt(arg))
+        denominator = (data**2 + c**2)**2
+        return np.log(numerator / denominator)
+    #revisit function
+    elif c>1:
+        function = ((2*c*data*(c-1))/(data**2+c**2)**2)\
+            +((data*c+(data**2-c**2)*np.arctan(data/c))/(data**2+c**2)**2)
+        return np.log(function)
     
 
 # define a pytensor Op for our likelihood function
@@ -84,8 +92,8 @@ x=0
 truemodel = my_model(ctrue, x)
 
 # make data
-#rng = np.random.default_rng(716743)
-#data = sigma * rng.normal(size=N) + truemodel
+# rng = np.random.default_rng(716743)
+# data = sigma * rng.normal(size=N) + truemodel
 dataAll = importCSV('isotropic_sims/data_3957506368889_xx_1.2_yy_1.2_zz_1.2.csv')
 data = [sublist[3] for sublist in dataAll]
 
@@ -101,13 +109,9 @@ test_out = loglike_op(ctrue, sigma, x, data)
 
 # use PyMC to sampler from log-likelihood
 with pm.Model() as no_grad_model:
-    # uniform priors on m and c
-    
-    #This is a bit confusing and I'm unsure of what the proper
-    # values here would be
-    #m = pm.Uniform("m", lower=0, upper=1, initval=0.5)
-    c = pm.Uniform("c", lower=-10, upper=10, initval=0.5)
-    #c = pm.Deterministic("c", ctrue)
+
+    c = pm.TruncatedNormal("c", lower=0,sigma=0.5)
+    #c = pm.Uniform("c",lower=0,upper=10,initval=1)
     # use a CustomDist with a custom logp function
     likelihood = pm.CustomDist(
         "likelihood", c, sigma, x, observed=data, logp=custom_dist_loglike
@@ -120,4 +124,4 @@ with no_grad_model:
     idata_no_grad = pm.sample(3000, tune=1000)
 
 # plot the traces
-az.plot_trace(idata_no_grad, lines=[("c", {}, ctrue)]);
+az.plot_trace(idata_no_grad, lines=[("c", {}, 0)]);

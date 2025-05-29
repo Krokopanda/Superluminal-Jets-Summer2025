@@ -28,18 +28,22 @@ def importCSV(filepath):
         radii.append(r)
     newList = [0]*len(dataImport)
     i=0
-    #returns radius, theta/declination, phi, and apparent velocity
+    #returns radius, theta/declination, phi, and inverse apparent velocity
     for radius,theta,phi in zip(radii,thetas,phis):
-        newList[i]=[radius,theta,phi,dataImport.iloc[i,8]]
+        newList[i]=[radius,theta,phi,1/dataImport.iloc[i,8]]
         i+=1
     return newList
 #testrun
-test = importCSV('isotropic_sims/data_3957506368889_xx_1.2_yy_1.2_zz_1.2.csv')
-
+#test = importCSV('isotropic_sims/data_3957506368889_xx_1.2_yy_1.2_zz_1.2.csv')
+#newList = importCSV('isotropic_sims/data_3957506368889_xx_1.2_yy_1.2_zz_1.2.csv')
 #TEST
 # maxVal = 0
 # for i in newList:
-#     if maxVal>i[1]:
-#         maxVal = i[1]
+#     if maxVal<i[3]:
+#         maxVal = i[3]
 # print(maxVal)
-#theta is from -pi/2 to pi/2 and declination is -pi to pi
+#theta is from -pi/2 to pi/2 and declination is -pi to pi NOPE
+#declination is from -pi/2 to pi/2 and phi is -pi to pi NOPE
+
+
+###ANGLES NEED VERIFICATION
