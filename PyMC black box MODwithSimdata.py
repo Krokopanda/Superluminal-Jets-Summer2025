@@ -18,6 +18,8 @@ import pytensor.tensor as pt
 from pytensor.graph import Apply, Op
 from scipy.optimize import approx_fprime
 
+from simulationImport import importCSV
+
 print(f"Running on PyMC v{pm.__version__}")
 
 # %config InlineBackend.figure_format = 'retina'
@@ -82,8 +84,10 @@ x=0
 truemodel = my_model(ctrue, x)
 
 # make data
-rng = np.random.default_rng(716743)
-data = sigma * rng.normal(size=N) + truemodel
+#rng = np.random.default_rng(716743)
+#data = sigma * rng.normal(size=N) + truemodel
+dataAll = importCSV('isotropic_sims/data_3957506368889_xx_1.2_yy_1.2_zz_1.2.csv')
+data = [sublist[3] for sublist in dataAll]
 
 # create our Op
 loglike_op = LogLike()
