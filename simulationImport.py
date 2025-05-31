@@ -35,9 +35,11 @@ def importCSV(filepath):
         radii.append(r)
 
     newList = []
+    i=0
     # returns radius, theta/declination, phi, and inverse apparent velocity
     for radius, theta, phi in zip(radii, thetas, phis):
         newList.append([radius, theta, phi, 1 / dataImport.iloc[i, 8]])
+        i+=1
 
     return newList
 

@@ -212,7 +212,7 @@ with pm.Model() as opmodel:
     # use a Potential
     pm.Potential("likelihood", logl(theta))
 
-    idata_grad = pm.sample(10000, tuning=10000)
+    idata_grad = pm.sample(10000, tuning=1000)
 
 # plot the traces
 az.plot_trace(idata_grad, lines=[("c", {}, ctrue)])
