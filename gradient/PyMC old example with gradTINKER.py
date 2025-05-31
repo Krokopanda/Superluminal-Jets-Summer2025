@@ -18,9 +18,9 @@ import pymc as pm
 import pytensor
 import pytensor.tensor as pt
 from simulationImport import importCSV
-import warnings
+# import warnings
 
-warnings.simplefilter('error',RuntimeWarning)
+# warnings.simplefilter('error',RuntimeWarning)
 dataSource = '/Users/ivanbijamov/Library/Mobile Documents/com~apple~CloudDocs/SuperluminalJets/isotropic_sims/300/data_3957593320521_xx_1.2_yy_1.2_zz_1.2.csv'
 
 
@@ -71,29 +71,50 @@ def normal_gradients(theta, x, data, sigma):
     grads = np.empty(1)
     c = theta[0]
     d = data
+    
     # TODO: Put partial deriviative here
     # This needs to be HEAVILY sanitized, there are so many runtime warnings with overflows and invalid
     # values
-
-    at = np.arctan(data/theta[0])
+    #Fast light case
+    if c>=1:
+        sqrRoot = np.sqrt(c**2+d**2-1)
+        at = np.arctan(sqrRoot)
+        
+        denum = np.where(
+            np.isnan(at) | np.isinf(at), 
+            np.nan, 
+            sqrRoot*(c**2+d**2)*(sqrRoot*c**2+(d**2-c**2)*at)
+        )
+        numer = np.where(
+            np.isnan(at) | np.isinf(at), 
+            np.nan,
+            c*((1+d**2)*c**2-c**4+(d**2)*(-1+2*d**2)+2*(c**2-3*d**2)*sqrRoot*at)
+        )
+        grads = np.where(
+            np.isnan(numer) | np.isnan(denum), 
+            np.nan,
+            numer/denum
+        )
+    #Slow Light Case
+    elif c>1:
+        at = np.arctan(data/theta[0])
     
-    denum = np.where(
-        np.isnan(at) | np.isinf(at), 
-        np.nan, 
-        (c**2+d**2)*(c*(-1+2*c)*d +(d**2-c**2)*at)
-    )
-    numer = np.where(
-        np.isnan(at) | np.isinf(at), 
-        np.nan,
-        -2*d*(-2*c**2+2*c**3+d**2-2*c*d**2)+2*(c**3-3*c*d**2)*at
-    )
-
-    grads = np.where(
-        np.isnan(numer) | np.isnan(denum), 
-        np.nan,
-        numer/denum
-    )
-
+        denum = np.where(
+            np.isnan(at) | np.isinf(at), 
+            np.nan, 
+            (c**2+d**2)*(c*(-1+2*c)*d +(d**2-c**2)*at)
+        )
+        numer = np.where(
+            np.isnan(at) | np.isinf(at), 
+            np.nan,
+            -2*d*(-2*c**2+2*c**3+d**2-2*c*d**2)+2*(c**3-3*c*d**2)*at
+        )
+    
+        grads = np.where(
+            np.isnan(numer) | np.isnan(denum), 
+            np.nan,
+            numer/denum
+        )
     return grads
 
 # define a pytensor Op for our likelihood function
@@ -212,7 +233,7 @@ with pm.Model() as opmodel:
     # use a Potential
     pm.Potential("likelihood", logl(theta))
 
-    idata_grad = pm.sample(10000, tuning=1000)
+    idata_grad = pm.sample(10000, tuning=10000,target_accept=0.95)
 
 # plot the traces
 az.plot_trace(idata_grad, lines=[("c", {}, ctrue)])
