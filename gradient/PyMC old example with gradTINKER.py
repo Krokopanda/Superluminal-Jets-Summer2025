@@ -69,23 +69,30 @@ def normal_gradients(theta, x, data, sigma):
     """
 
     grads = np.empty(1)
-    
-    #Put partial deriviative here
-    #This needs to be HEAVILY sanitized, there are so many runtime warnings with overflows and invalid
+    c = theta[0]
+    d = data
+    # TODO: Put partial deriviative here
+    # This needs to be HEAVILY sanitized, there are so many runtime warnings with overflows and invalid
     # values
-    #arctan may be playing weirdy with the very small replacement for zero
-    #trying to avoid dividing by zero cases by putting a really small number instead
-    divzero = theta[0]**2 + data**2
-    divzero = np.where(divzero == 0, 1e-12, divzero)
-    sqrtarg = np.sqrt(np.maximum(data**2 + theta[0]**2 - 1, 1e-12))  # Keep inside sqrt positive
+
+    at = np.arctan(data/theta[0])
     
-    blockmult = (theta[0]**2+data**2)**2
-    block1 = (((theta[0]**3)/sqrtarg)+2*theta[0]*sqrtarg+(theta[0]*(data**2-theta[0]**2)/(sqrtarg*(divzero)))-2*theta[0]*np.arctan(sqrtarg))/(divzero)**2
-    block2 = (4*theta[0]*(theta[0]**2*sqrtarg+(data**2-theta[0])*np.arctan(sqrtarg)))/(divzero)**3
-    
-    blockdiv = theta[0]*sqrtarg+(data**2-theta[0]**2)*np.arctan(sqrtarg)
-    grads[0] = np.sum((blockmult*(block1-block2))/blockdiv)
-    
+    denum = np.where(
+        np.isnan(at) | np.isinf(at), 
+        np.nan, 
+        (c**2+d**2)*(c*(-1+2*c)*d +(d**2-c**2)*at)
+    )
+    numer = np.where(
+        np.isnan(at) | np.isinf(at), 
+        np.nan,
+        -2*d*(-2*c**2+2*c**3+d**2-2*c*d**2)+2*(c**3-3*c*d**2)*at
+    )
+
+    grads = np.where(
+        np.isnan(numer) | np.isnan(denum), 
+        np.nan,
+        numer/denum
+    )
 
     return grads
 
