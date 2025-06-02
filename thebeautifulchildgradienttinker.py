@@ -22,7 +22,7 @@ from simulationImport import importCSV
 
 # warnings.simplefilter('error',RuntimeWarning)
 #dataSource = '/Users/ivanbijamov/Library/Mobile Documents/com~apple~CloudDocs/SuperluminalJets/isotropic_sims/10000/data_3957522615600_xx_1.2_yy_1.2_zz_1.2.csv'
-dataSource = '/Users/ivanbijamov/Library/Mobile Documents/com~apple~CloudDocs/SuperluminalJets/isotropic_sims/300/data_3957593320521_xx_1.2_yy_1.2_zz_1.2.csv'
+dataSource = '/Users/ivanbijamov/SuperluminalJets/isotropic_sims/1000/data_3957593340170_xx_1.2_yy_1.2_zz_1.2.csv'
 
 
 np.random.seed(42)

@@ -10,9 +10,6 @@ Drawn from older example on GitHub:
 """
 
 import arviz as az
-import IPython
-import matplotlib
-import matplotlib.pyplot as plt
 import numpy as np
 import pymc as pm
 import pytensor.tensor as pt
@@ -21,7 +18,7 @@ from simulationImport import importCSV
 # import warnings
 
 # warnings.simplefilter('error',RuntimeWarning)
-dataSource = "/Users/ivanbijamov/SuperluminalJets/isotropic_sims/1000/data_3957593340170_xx_1.2_yy_1.2_zz_1.2.csv"
+dataSource = "/Users/ivanbijamov/SuperluminalJets/isotropic_sims/300/data_3957593320521_xx_1.2_yy_1.2_zz_1.2.csv"
 
 
 print(f"Running on PyMC v{pm.__version__}")
@@ -35,24 +32,43 @@ def my_model(theta, x):
     return 1
 
 
+# TODO trying to figure out which version of loglike is acceptable
 # log of probability function from notes
-def my_loglike1(theta, x, data, sigma):
-    c = theta
-    if c <= 1:
-        arg = np.maximum(data**2 + c**2 - 1, 1e-12)  # Keep inside sqrt positive
-        # arg = data**2 + c**2 - 1
-        numerator = (c**2) * np.sqrt(arg) + (data**2 - c**2) * np.arctan(np.sqrt(arg))
-        denominator = (data**2 + c**2) ** 2
-        return np.sum(np.log(numerator / denominator))
-    # revisit function
-    elif c > 1:
-        function = ((2 * c * data * (c - 1)) / (data**2 + c**2) ** 2) + (
-            (data * c + (data**2 - c**2) * np.arctan(data / c)) / (data**2 + c**2) ** 2
-        )
-        return np.sum(np.log(function))
-
-
 def my_loglike(theta, x, data, sigma):
+    c = theta[0]
+    impossible_neg = -1e6
+
+    if c <= 1:
+        arg = data**2 + c**2 - 1
+
+        sqr_root = np.where(arg < 0, -1.0, np.sqrt(arg))  # replace np.nan with -1.0
+        numerator = (c**2) * sqr_root + (data**2 - c**2) * np.arctan(sqr_root)
+        denominator = (data**2 + c**2) ** 2
+
+        with np.errstate(divide="ignore", invalid="ignore"):
+            ratio = numerator / denominator
+
+        #  keep only the valid values: valid sqrt,  denom nonzero, and positive ratio
+        valid_sqrt = arg >= 0
+        function = np.where(
+            valid_sqrt & (denominator != 0) & (ratio > 0), np.log(ratio), impossible_neg
+        )
+        return np.sum(function)
+
+    else:
+        # For c > 1
+        at = np.arctan(data / c)
+        denum = (data**2 + c**2) ** 2
+        numer = 2 * c * data * (c - 1) + c * data + (data**2 - c**2) * at
+
+        with np.errstate(divide="ignore", invalid="ignore"):
+            ratio = numer / denum
+
+        function = np.where((denum != 0) & (ratio > 0), np.log(ratio), impossible_neg)
+        return np.sum(function)
+
+
+def my_loglike1(theta, x, data, sigma):
     c = theta
     if c <= 1:
         arg = data**2 + c**2 - 1
@@ -103,33 +119,29 @@ def normal_gradients(theta, x, data, sigma):
     grads = np.empty(1)
     c = theta[0]
     d = data
-
+    epsilon = 1e-4
     # Partial derivative of the log-probability with respect to w_c for the gradient
-
+    # getting the minimum value in the data array
+    data_min = np.min(data)
     # Fast light case
     if c <= 1:
-        # catching negative sqrt cases and replacing them with NaN
+        # In instances where the input of c(w_c) is invalid for the square root argument, we replace it with a minimum value
         arg = c**2 + d**2 - 1
-        sqr_root = np.where(arg < 0, np.nan, np.sqrt(arg))
+        cdiff = np.sqrt(1 - data_min**2 + epsilon)
+
+        arg = np.where(arg > 0, c**2 + d**2 - 1, cdiff**2 + data_min**2 - 1)
+        sqr_root = np.sqrt(arg)
         at = np.arctan(sqr_root)
 
-        denum = np.where(
-            np.isnan(at) | np.isinf(at) | np.isnan(sqr_root),
-            np.nan,
-            sqr_root * (c**2 + d**2) * (sqr_root * c**2 + (d**2 - c**2) * at),
+        denum = sqr_root * (c**2 + d**2) * (sqr_root * c**2 + (d**2 - c**2) * at)
+
+        numer = c * (
+            (1 + d**2) * c**2
+            - c**4
+            + (d**2) * (-1 + 2 * d**2)
+            + 2 * (c**2 - 3 * d**2) * sqr_root * at
         )
-        numer = np.where(
-            np.isnan(at) | np.isinf(at) | np.isnan(sqr_root),
-            np.nan,
-            c
-            * (
-                (1 + d**2) * c**2
-                - c**4
-                + (d**2) * (-1 + 2 * d**2)
-                + 2 * (c**2 - 3 * d**2) * sqr_root * at
-            ),
-        )
-        grads = np.where(np.isnan(numer) | np.isnan(denum), np.nan, numer / denum)
+        grads = numer / denum
     # Slow Light Case
     elif c > 1:
         at = np.arctan(data / theta[0])

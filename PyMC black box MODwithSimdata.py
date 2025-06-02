@@ -23,7 +23,7 @@ from simulationImport import importCSV
 
 def main():
     # put the file path here for the data that is being used
-    dataSource = "/Users/ivanbijamov/Library/Mobile Documents/com~apple~CloudDocs/SuperluminalJets/isotropic_sims/10000/data_3957522615761_xx_0.8_yy_0.8_zz_0.8.csv"
+    dataSource = "/Users/ivanbijamov/SuperluminalJets/isotropic_sims/10000/data_3957522615761_xx_0.8_yy_0.8_zz_0.8.csv"
 
     print(f"Running on PyMC v{pm.__version__}")
 
@@ -128,7 +128,7 @@ def main():
         idata_no_grad = pm.sample(10000, tune=1000)
 
     # plot the traces
-    az.plot_trace(idata_no_grad, lines=[("c", {}, 0)])
+    az.plot_trace(idata_no_grad, lines=[("c", {}, 0)], show=True)
     summary = pm.stats.summary(idata_no_grad)
     print(summary)
 
