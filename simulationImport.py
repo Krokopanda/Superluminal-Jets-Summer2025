@@ -22,14 +22,12 @@ def importCSV(filepath):
     phis = []
     # TODO: find numpy function to make code more efficient with finding r
     for i in range(len(dataImport)):
-        r = np.sqrt(
-            dataImport.iloc[i, 0] ** 2
-            + dataImport.iloc[i, 1] ** 2
-            + dataImport.iloc[i, 2] ** 2
-        )
-        phi = np.arctan2(dataImport.iloc[i, 1], dataImport.iloc[i, 0])
+        pos = dataImport.iloc[i, 0:3]
+        print(pos)
+        r = np.linalg.norm(pos)
+        phi = np.arctan2(pos[1], pos[0])
         # if arccos, it is theta angle, if arcsin, then declination
-        theta = np.arcsin((dataImport.iloc[i, 2] / r))
+        theta = np.arcsin(pos[2]/r)
         phis.append(phi)
         thetas.append(theta)
         radii.append(r)
