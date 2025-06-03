@@ -36,12 +36,14 @@ def my_model(theta, x):
 # log of probability function from notes
 def my_loglike(theta, x, data, sigma):
     c = theta[0]
-    impossible_neg = -1e6
+    impossible_neg = -1e3
 
     if c <= 1:
         arg = data**2 + c**2 - 1
-
-        sqr_root = np.where(arg < 0, -1.0, np.sqrt(arg))  # replace np.nan with -1.0
+        arg = np.where(data**2 + c**2 - 1 < 0, np.nan, data**2 + c**2 - 1)
+        sqr_root = np.where(
+            np.isnan(arg), np.nan, np.sqrt(arg)
+        )  # replace np.nan with -1.0
         numerator = (c**2) * sqr_root + (data**2 - c**2) * np.arctan(sqr_root)
         denominator = (data**2 + c**2) ** 2
 
@@ -51,7 +53,7 @@ def my_loglike(theta, x, data, sigma):
         #  keep only the valid values: valid sqrt,  denom nonzero, and positive ratio
         valid_sqrt = arg >= 0
         function = np.where(
-            valid_sqrt & (denominator != 0) & (ratio > 0), np.log(ratio), impossible_neg
+            np.isnan(numerator), impossible_neg, np.log(numerator / denominator)
         )
         return np.sum(function)
 
@@ -141,24 +143,18 @@ def normal_gradients(theta, x, data, sigma):
             + (d**2) * (-1 + 2 * d**2)
             + 2 * (c**2 - 3 * d**2) * sqr_root * at
         )
-        grads = numer / denum
+        grads = np.divide(numer, denum)
     # Slow Light Case
     elif c > 1:
         at = np.arctan(data / theta[0])
 
-        denum = np.where(
-            np.isnan(at) | np.isinf(at),
-            np.nan,
-            (c**2 + d**2) * (c * (-1 + 2 * c) * d + (d**2 - c**2) * at),
-        )
-        numer = np.where(
-            np.isnan(at) | np.isinf(at),
-            np.nan,
+        denum = (c**2 + d**2) * (c * (-1 + 2 * c) * d + (d**2 - c**2) * at)
+        numer = (
             -2 * d * (-2 * c**2 + 2 * c**3 + d**2 - 2 * c * d**2)
-            + 2 * (c**3 - 3 * c * d**2) * at,
+            + 2 * (c**3 - 3 * c * d**2) * at
         )
 
-        grads = np.where(np.isnan(numer) | np.isnan(denum), np.nan, numer / denum)
+        grads = numer / denum
     return grads
 
 
@@ -271,7 +267,9 @@ logl = LogLikeWithGrad(my_loglike, data, x, sigma)
 # use PyMC to sampler from log-likelihood
 with pm.Model() as opmodel:
     # uniform priors on m and c
-    c = pm.TruncatedNormal("c", lower=0, sigma=0.5)
+    # c = pm.TruncatedNormal("c", lower=0, sigma=0.5)
+    c = pm.LogNormal("c", sigma=0.5)
+    # c = pm.Gamma("c", alpha=2, beta=1)
     # convert m and c to a tensor vector
     theta = pt.as_tensor_variable([c])
 

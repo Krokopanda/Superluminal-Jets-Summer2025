@@ -5,7 +5,7 @@ Created on Wed May 28 15:48:40 2025
 
 @author: mseifer1
 
-Drawn from older example on GitHub:  
+Drawn from older example on GitHub:
     https://github.com/pymc-devs/pymc-examples/blob/6f2eb44c81896f7e827623ccb12e06731726b6bc/examples/howto/blackbox_external_likelihood_numpy.ipynb
 """
 
@@ -22,13 +22,16 @@ print(f"Running on PyMC v{pm.__version__}")
 
 az.style.use("arviz-darkgrid")
 
+
 def my_model(theta, x):
     m, c = theta
     return m * x + c
 
+
 def my_loglike(theta, x, data, sigma):
     model = my_model(theta, x)
     return -(0.5 / sigma**2) * np.sum((data - model) ** 2)
+
 
 def normal_gradients(theta, x, data, sigma):
     """
@@ -57,6 +60,7 @@ def normal_gradients(theta, x, data, sigma):
     grads[1] = np.sum(aux_vect)
 
     return grads
+
 
 # define a pytensor Op for our likelihood function
 class LogLikeWithGrad(pt.Op):
@@ -106,7 +110,6 @@ class LogLikeWithGrad(pt.Op):
 
 
 class LogLikeGrad(pt.Op):
-
     """
     This Op will be called with a vector of values and also return a vector of
     values - the gradients in each dimension.
@@ -142,7 +145,8 @@ class LogLikeGrad(pt.Op):
         grads = normal_gradients(theta, self.x, self.data, self.sigma)
 
         outputs[0][0] = grads
-        
+
+
 # set up our data
 N = 10  # number of data points
 sigma = 1.0  # standard deviation of noise
@@ -175,4 +179,4 @@ with pm.Model() as opmodel:
     idata_grad = pm.sample()
 
 # plot the traces
-az.plot_trace(idata_grad, lines=[("m", {}, mtrue), ("c", {}, ctrue)])
+az.plot_trace(idata_grad, lines=[("m", {}, mtrue), ("c", {}, ctrue)], show=True)
