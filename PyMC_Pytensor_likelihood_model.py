@@ -34,15 +34,18 @@ def loglike(wc: pt.TensorVariable, wt: pt.TensorVariable) -> pt.TensorVariable:
     denum = pt.pow(sum_squares, 2)
 
     expr = pt.log(numer / denum)
-    return expr
-    # print(expr.type)
-    # likelihood = pytensor.function(
-    #    [d, c], expr, mode="FAST_RUN", on_unused_input="ignore"
-    # )
 
+    wt_times_wc = wc * wt
+    at2 = pt.arctan(wt / wc)
+    numer2 = 2 * wt_times_wc * (wc - 1) + wt_times_wc + (wt_squared - wc_squared) * at2
+    denum2 = pt.pow(sum_squares, 2)
+    expr2 = pt.log(numer2 / denum2)
 
-# answer = likelihood(d_input, c_input)
-# return answer
+    condition = pt.lt(wc, 1)
+
+    result = pt.switch(condition, expr, expr2)
+
+    return result
 
 
 # Get the directory this code file is stored in
@@ -50,7 +53,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 # find the path for the data source;  this should work on everyone's system now
 dataSource = (
-    dir_path + "/isotropic_sims/10000/data_3957522615761_xx_0.8_yy_0.8_zz_0.8.csv"
+    dir_path + "/isotropic_sims/10000/data_3957522615600_xx_1.2_yy_1.2_zz_1.2.csv"
 )
 
 print(f"Running on PyMC v{pm.__version__}")
