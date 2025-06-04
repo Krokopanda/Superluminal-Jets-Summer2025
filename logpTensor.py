@@ -33,7 +33,8 @@ def loglike():
     log_slow_likelihood = pytensor.function(
         [d, c], expr2, mode="FAST_RUN", on_unused_input="ignore"
     )
-    return log_fast_likelihood, log_slow_likelihood
+    return pt.sum(expr), pt.sum(expr2)
+    # return expr,expr2
 
 
 def main():
