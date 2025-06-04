@@ -45,6 +45,8 @@ def loglike(wc: pt.TensorVariable, wt: pt.TensorVariable) -> pt.TensorVariable:
 
     result = pt.switch(condition, expr, expr2)
 
+    return pytensor.function([wt,wc],expr2)
+
     return result
 
 
