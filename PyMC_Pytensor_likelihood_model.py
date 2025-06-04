@@ -14,14 +14,9 @@ import pytensor
 import pytensor.tensor as pt
 import os
 
-from pytensor.tensor import as_tensor_variable
-
 from simulationImport import importCSV
 
-pytensor.config.exception_verbosity = "high"
 
-
-# TODO: make this more human-readable by renaming d->wt, c->wc.
 def loglike(wc: pt.TensorVariable, wt: pt.TensorVariable) -> pt.TensorVariable:
     # wt = pt.vector("wt", dtype="float64")
     # wc = pt.scalar("wc", dtype="float64")
@@ -41,12 +36,12 @@ def loglike(wc: pt.TensorVariable, wt: pt.TensorVariable) -> pt.TensorVariable:
     denum2 = pt.pow(sum_squares, 2)
     expr2 = pt.log(numer2 / denum2)
 
-    condition = pt.lt(wc, 1)
 
-    result = pt.switch(condition, expr, expr2)
-
-    return result
-
+# TODO check how this behaves, still not getting negative plots with either data
+    expit2 = pm.math.sigmoid((wc-1)*1000)
+    expit1 = pm.math.sigmoid(1000*(1-wc))
+    final_expression = expr*expit2 + expr2*expit1
+    return final_expression
 
 # Get the directory this code file is stored in
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -70,7 +65,8 @@ with model:
     # Priors for unknown model parameters.  I defined q to be wc - 1, to avoid
     # confusion between the model parameter and the inverse speed of light as a
     # function of the parameters.
-    q = pm.TruncatedNormal("q", mu=0, sigma=1, lower=-1)
+    q = pm.TruncatedNormal("q", mu=0, sigma=1, lower=-1,upper=1)
+    #wc = pm.TruncatedNormal("wc", mu=0, sigma=1, lower=0)
     # TODO: this should be replaced with a truncated distribution, so that
     # q < -1 (wc < 0) is impossible
 
