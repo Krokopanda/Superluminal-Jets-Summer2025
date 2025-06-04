@@ -36,6 +36,16 @@ def loglike(wc: pt.TensorVariable, wt: pt.TensorVariable) -> pt.TensorVariable:
     denum2 = pt.pow(sum_squares, 2)
     expr2 = pt.log(numer2 / denum2)
 
+<<<<<<< HEAD
+    condition = pt.lt(wc, 1)
+
+    result = pt.switch(condition, expr, expr2)
+
+    return pytensor.function([wt,wc],expr2)
+
+    return result
+=======
+>>>>>>> origin/PyTensorLogLike
 
 # TODO check how this behaves, still not getting negative plots with either data
     expit2 = pm.math.sigmoid((wc-1)*1000)
