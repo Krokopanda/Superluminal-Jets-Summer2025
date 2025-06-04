@@ -48,7 +48,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 # find the path for the data source;  this should work on everyone's system now
 dataSource = (
-    dir_path + "/isotropic_sims/10000/data_3957522615600_xx_1.2_yy_1.2_zz_1.2.csv"
+    dir_path + "/isotropic_sims/10000/data_3957522615761_xx_0.8_yy_0.8_zz_0.8.csv"
 )
 
 print(f"Running on PyMC v{pm.__version__}")
@@ -65,7 +65,7 @@ with model:
     # Priors for unknown model parameters.  I defined q to be wc - 1, to avoid
     # confusion between the model parameter and the inverse speed of light as a
     # function of the parameters.
-    q = pm.TruncatedNormal("q", mu=0, sigma=1, lower=-1,upper=1)
+    q = pm.TruncatedNormal("q", mu=0, sigma=1, lower=-1, upper=1)
     #wc = pm.TruncatedNormal("wc", mu=0, sigma=1, lower=0)
     # TODO: this should be replaced with a truncated distribution, so that
     # q < -1 (wc < 0) is impossible
