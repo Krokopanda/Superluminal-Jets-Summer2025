@@ -81,28 +81,15 @@ with model:
     # Priors for unknown model parameters.  I defined q to be wc - 1, to avoid
     # confusion between the model parameter and the inverse speed of light as a
     # function of the parameters.
-    muO = pm.Uniform("muO", lower=wc_min)
-    bounded_normal = pm.Bound(pm.Normal,lower=wc_min)
-    q = pm.Deterministic("q", pm.Normal(muO, bounded_normal))
-    #q = pm.TruncatedNormal("q", mu=muO, sigma=10,lower=wc_min-1)
-
+    #q = pm.TruncatedNormal("q", sigma=10,lower=wc_min-1)
+    z = pm.TruncatedNormal("z", mu=0, sigma=1, lower=(wc_min - 1) / 10)
+    q = pm.Deterministic("q", 10 * z)
 
 
     # Expected value of wc, in terms of unknown model parameters and observed "X" values.
     # Right now this is very simple.  Eventually it will need to accept more parameter
     # values, along with RA & declination.
     wc = q + 1
-
-    #theother version
-    # y = wc-(wc_min**2)/(wc-wc_min)
-    #
-    # wc = (wc_min+y+np.sqrt(y**2-2*wc_min*y+5*wc_min**2))/2
-
-
-    #Log version
-    #y = np.log((wc/wt_min)-1)
-    #wc = wc_min*(np.exp(y)+1)
-    # TODO reparameter, almost gets rid of divergences, but values are off. Fix somehow? Redefining and whatnot
 
     # Likelihood (sampling distribution) of observations
     wt_obs = pm.CustomDist("wt_obs", wc, observed=wt_data, logp=loglike)
