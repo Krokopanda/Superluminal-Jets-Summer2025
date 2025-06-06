@@ -49,7 +49,7 @@ def loglike(wt: pt.TensorVariable, wc: pt.TensorVariable) -> pt.TensorVariable:
    
     condition = pt.lt(wc, 1)
     
-    result = expr1 # pt.switch(condition, expr1, expr2)
+    result = pt.switch(condition, expr1, expr2)
 
     return result
 
