@@ -81,10 +81,11 @@ with model:
     # Priors for unknown model parameters.  I defined q to be wc - 1, to avoid
     # confusion between the model parameter and the inverse speed of light as a
     # function of the parameters.
-    #q = pm.TruncatedNormal("q", sigma=10,lower=wc_min-1)
-    z = pm.TruncatedNormal("z", mu=0, sigma=1, lower=(wc_min - 1) / 10)
-    q = pm.Deterministic("q", 10 * z)
+    
+    q = pm.Normal("q", sigma=10)
 
+    # z = pm.TruncatedNormal("z", mu=0, sigma=1, lower=(wc_min - 1) / 10)
+    # q = pm.Deterministic("q", 10 * z)
 
     # Expected value of wc, in terms of unknown model parameters and observed "X" values.
     # Right now this is very simple.  Eventually it will need to accept more parameter
@@ -100,5 +101,7 @@ with model:
 
 
 
-
+summ = az.summary(trace)
+print(summ)
 az.plot_trace(trace, show=True)
+az.plot_posterior(trace, round_to=3, figsize=[8,4], textsize=10)
