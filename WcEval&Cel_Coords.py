@@ -26,39 +26,43 @@ def solve_wc(g, B, P):
     wc2 = (-b - sqrt_disc) / (2 * a)
     return wc1, wc2
    
-    #return {
-    #    "future light cone": wc1 if wc1 > 0 else wc2,
-    #    "past light cone": wc2 if wc1 > 0 else wc1
-    #}
-
+    #todo: if discriminant becomes negtaive set statement to check
+    #sometimes theres both ++ or -- when large deviations
+    #5 total, 2 scalars and a vector-> refactor so that accepts parameters in expected form
 
 def celes_coords(vector):
     x, y, z = vector
-    r = np.linalg.norm(vector)
+    r = np.linalg.norm(vector) #r^2 = sqrt(x^2 + y^2 + z^2)
     dec_rad = np.arcsin(z / r)
     ra_rad = np.arctan2(y, x)
 
     # Convert to degrees and hours
-    dec_deg = np.degrees(dec_rad)
+    dec_deg = np.degrees(dec_rad)  #keep in radians 
+    
     ra_deg = np.degrees(ra_rad)
     if ra_deg < 0:
         ra_deg += 360
     ra_hours = ra_deg / 15
 
-    return ra_hours, dec_deg
+    return ra_hours, dec_rad
 
 #example values
 g = 0.5
 B = 1
-n_hat = np.array([0.5, 0.5, 0.5])  
-P = np.dot(B * n_hat, n_hat)  # B dot nhat
+n_hat = np.array([1, 1, 1])
+n_hat = n_hat / np.linalg.norm(n_hat)  #normalize to unit vector
+P = np.dot(B * n_hat, n_hat)  #B dot nhat
 
-#solve
+        
+# solve
 roots = solve_wc(g, B, P)
 if roots:
     for i, wc in enumerate(roots, 1):
-        vec = wc * n_hat
-        ra, dec = celes_coords(vec)
-        print(f"Root {i}: wc = {wc:.4f}, Vector = {vec}, RA = {ra:.2f}h, Dec = {dec:.2f}°")
+        if wc > 0:  #only positive wc 
+            wc_vector = wc * n_hat
+            ra, dec = celes_coords(wc_vector)
+            print(f"Root {i}: wc = {wc:.4f}, RA = {ra:.2f}h, Dec = {dec:.2f}radians")
+
+
 
 
