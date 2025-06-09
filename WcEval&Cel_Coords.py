@@ -32,9 +32,9 @@ def solve_wc(g, B, P):
     #}
 
 
-def ra_dec(vec):
-    x, y, z = vec
-    r = np.linalg.norm(vec)
+def celes_coords(vector):
+    x, y, z = vector
+    r = np.linalg.norm(vector)
     dec_rad = np.arcsin(z / r)
     ra_rad = np.arctan2(y, x)
 
@@ -58,7 +58,7 @@ roots = solve_wc(g, B, P)
 if roots:
     for i, wc in enumerate(roots, 1):
         vec = wc * n_hat
-        ra, dec = ra_dec(vec)
+        ra, dec = celes_coords(vec)
         print(f"Root {i}: wc = {wc:.4f}, Vector = {vec}, RA = {ra:.2f}h, Dec = {dec:.2f}°")
 
 
