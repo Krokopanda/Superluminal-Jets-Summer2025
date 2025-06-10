@@ -14,8 +14,6 @@ import pytensor
 import pytensor.tensor as pt
 import os
 
-from pytensor.tensor import as_tensor_variable, TensorVariable
-
 from simulationImport import importCSV
 
 # only pass wc and sigma
@@ -40,15 +38,9 @@ wt_data = [sublist[3] for sublist in dataAll]
 wt_min = np.min(wt_data)
 wc_min = np.sqrt(1 - wt_min**2)
 
-v = np.random.normal(0, 1, size=(3,))
-v_temp = v / np.linalg.norm(v)
-
-
-v_hat = pt.constant(v_temp)
-
 
 model = pm.Model()
-size = 3
+size = 1
 
 
 def true_wt(
@@ -56,20 +48,17 @@ def true_wt(
     wc: pt.TensorVariable,
     sigma: pt.TensorVariable,
     size: pt.TensorVariable,
-    v=v,
-    v_hat=v_hat,
+    v: pt.TensorVariable,
+    v_hat: pt.TensorVariable,
 ) -> pt.TensorVariable:
-    # v = pm.Normal("v", mu=0, sigma=1, shape=3)
-    # norm_vec = pt.sqrt(pt.sum(v ** 2))
-    #
-    # # unit vector on the sphere
-    # v_hat = pm.Deterministic("unit_vec", v / norm_vec)
 
     # v = pt.random.normal(0, 1, size=(3,))
     # norm_vec = pt.sqrt(pt.sum(v**2))
     #
     # # Define the unit vector on the sphere
     # v_hat = v / norm_vec
+    if n_hat is None or v_hat is None:
+        raise ValueError("One of the input variables is None")
     dot_product = pt.dot(n_hat, v_hat)
     numer = (1 / v) + wc * n_hat * dot_product
     denom = pt.sqrt(1 - pt.pow(dot_product, 2))
@@ -77,25 +66,37 @@ def true_wt(
     return pm.Normal.dist(expr, sigma, size=size)
 
 
+size = 1
 n_hatDUM = np.array([1.0, 0, 0])
 with model:
 
-    wc = pm.Normal("wc", mu=0, sigma=10)
+    wc = pm.TruncatedNormal("wc", mu=0, sigma=10, lower=0)
     sigma = pm.Normal("sigma", mu=0, sigma=1)
+    v = pm.Normal("v", mu=0, sigma=1, shape=3)
+    norm_vec = pt.sqrt(pt.sum(v**2))
 
+    # unit vector on the sphere
+    v_hat = pm.Deterministic("unit_vec", v / norm_vec)
     # Likelihood (sampling distribution) of observations
     wt_obs = pm.CustomDist(
         "wt_obs",
         wc,
         sigma,
         size,
+        v,
+        v_hat,
         dist=true_wt,
         observed=n_hatDUM,
     )
+    # gets log probability expression
 
-    trace = pm.sample(10000, target_accept=0.80)
-
-    # trace_transform = trace.map(lambda y: wc_min*(np.exp(y)+1), groups="posterior")
+    trace = pm.sample(1000, target_accept=0.80)
+    wt_draws = pm.draw(wt_obs, draws=1000)
+plt.hist(wt_draws, bins=30, density=True)
+plt.xlabel("wt")
+plt.ylabel("Pwt")
+plt.title("Histogram")
+plt.show()
 
 
 summ = az.summary(trace)
