@@ -83,14 +83,17 @@ with model:
     # function of the parameters.
     
     q = pm.Normal("q", sigma=10)
+    wc = q + 1
 
-    # z = pm.TruncatedNormal("z", mu=0, sigma=1, lower=(wc_min - 1) / 10)
-    # q = pm.Deterministic("q", 10 * z)
 
+    # w = pm.CustomDist("w",wc,logp=loglike)
+    # sigma = pm.HalfNormal("sigma", sigma=1.0)
+    #
+    # wt = pm.Normal("wt", sigma=sigma,initval=w, observed=wt_data)
     # Expected value of wc, in terms of unknown model parameters and observed "X" values.
     # Right now this is very simple.  Eventually it will need to accept more parameter
     # values, along with RA & declination.
-    wc = q + 1
+
 
     # Likelihood (sampling distribution) of observations
     wt_obs = pm.CustomDist("wt_obs", wc, observed=wt_data, logp=loglike)
