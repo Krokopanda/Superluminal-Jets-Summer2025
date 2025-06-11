@@ -16,6 +16,11 @@ import os
 
 from simulationImport import importCSV
 
+
+# We tried putting parameters directly into a normal distribution rather than using custom dist, and some less than
+# pleasant outcomes presented themselves as a result
+
+
 # only pass wc and sigma
 pytensor.config.exception_verbosity = "high"
 
@@ -80,21 +85,30 @@ def normalize(x):
 with model:
     # n_hatDUM = pm.Normal("n_hat", mu=0)
     wc = pm.TruncatedNormal("wc", mu=0, sigma=10, lower=0)
-    sigma = pm.Normal("sigma", mu=0, sigma=1)
+    sigma = 0.01
     v = pm.Uniform("v", lower=0, upper=1, size=3)
-    random_vec = pm.Uniform("random_vec", shape=3, lower=0, upper=1)
+    random_vec = pm.Normal("random_vec", shape=3)
     norm_vec = pt.sqrt(pt.sum(pt.pow(random_vec, 2)))
 
     # unit vector on the sphere
     v_hat = pm.Deterministic("v_hat", random_vec / norm_vec)
     # Likelihood (sampling distribution) of observations
-    wt_obs = pm.CustomDist(
-        "wt_obs", wc, sigma, size, v, v_hat, dist=true_wt, observed=n_hatDUM
-    )
 
-    trace = pm.sample(1000, target_accept=0.80)
+    # dotproduct = pm.dot( v_hat, n_hat)
+    # wt_true = numer/ denom
+    # wt_obs = pm.Normal (wt_true, sigma)
+
+    dot_product = pt.dot(n_hatDUM, v_hat)
+    numer = (1 / v) + wc * n_hatDUM * dot_product
+    denom = pt.sqrt(1 - pt.pow(dot_product, 2))
+
+    wt_true = numer / denom
+    wt_obs = pm.Normal("wt_obs", wt_true, sigma=sigma)
+    # wt_obs = pm.CustomDist("wt_obs", wc, sigma, size, dist=true_wt, observed=n_hatDUM)
+
+    trace = pm.sample(1000, target_accept=0.85)
     wt_draws = pm.draw(wt_obs, draws=1000)
-plt.hist(wt_draws, bins=30, density=True)
+plt.hist(wt_draws, bins=30, density=True, range=(0, 3))
 plt.xlabel("wt")
 plt.ylabel("Pwt")
 plt.title("Histogram")
