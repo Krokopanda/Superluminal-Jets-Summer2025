@@ -42,7 +42,10 @@ wc_min = np.sqrt(1 - wt_min**2)
 model = pm.Model()
 size = 1
 
+n_hatDUM = pt.constant([1.0, 0.0, 0.0], dtype=pytensor.config.floatX)
 
+
+# TODO removing v and vhat from the calling shenanigans does create a new error. Look into that perchance
 def true_wt(
     n_hat: pt.TensorVariable,
     wc: pt.TensorVariable,
@@ -67,28 +70,20 @@ def true_wt(
 
 
 size = 1
-n_hatDUM = np.array([1.0, 0, 0])
-with model:
 
+with model:
+    # n_hatDUM = pm.Normal("n_hat", mu=0)
     wc = pm.TruncatedNormal("wc", mu=0, sigma=10, lower=0)
     sigma = pm.Normal("sigma", mu=0, sigma=1)
-    v = pm.Normal("v", mu=0, sigma=1, shape=3)
+    v = pm.TruncatedNormal("v", mu=0, sigma=1, shape=3, lower=0, upper=1)
     norm_vec = pt.sqrt(pt.sum(v**2))
 
     # unit vector on the sphere
-    v_hat = pm.Deterministic("unit_vec", v / norm_vec)
+    v_hat = pm.Deterministic("v_hat", v / norm_vec)
     # Likelihood (sampling distribution) of observations
     wt_obs = pm.CustomDist(
-        "wt_obs",
-        wc,
-        sigma,
-        size,
-        v,
-        v_hat,
-        dist=true_wt,
-        observed=n_hatDUM,
+        "wt_obs", wc, sigma, size, v, v_hat, dist=true_wt, observed=n_hatDUM
     )
-    # gets log probability expression
 
     trace = pm.sample(1000, target_accept=0.80)
     wt_draws = pm.draw(wt_obs, draws=1000)
