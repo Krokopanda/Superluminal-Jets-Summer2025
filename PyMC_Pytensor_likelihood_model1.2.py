@@ -51,22 +51,27 @@ def true_wt(
     wc: pt.TensorVariable,
     sigma: pt.TensorVariable,
     size: pt.TensorVariable,
-    v: pt.TensorVariable,
-    v_hat: pt.TensorVariable,
 ) -> pt.TensorVariable:
-
     # v = pt.random.normal(0, 1, size=(3,))
     # norm_vec = pt.sqrt(pt.sum(v**2))
     #
     # # Define the unit vector on the sphere
     # v_hat = v / norm_vec
+    v = pt.random.uniform(low=0, high=1, size=(3,))
+
+    # Generate a second uniform random vector for computing the direction.
+    random_vec = pt.random.uniform(low=0, high=1, size=(3,))
+    # Compute the norm using pt.square (equivalent to pt.pow(x, 2))
+    norm_vec = pt.sqrt(pt.sum(pt.square(random_vec)))
+    # Compute the unit vector.
+    v_hat = random_vec / norm_vec
     if n_hat is None or v_hat is None:
         raise ValueError("One of the input variables is None")
     dot_product = pt.dot(n_hat, v_hat)
     numer = (1 / v) + wc * n_hat * dot_product
     denom = pt.sqrt(1 - pt.pow(dot_product, 2))
     expr = numer / denom
-    return pm.Normal.dist(expr, sigma, size=size)
+    return pm.Normal.dist(expr, sigma=sigma, size=size)
 
 
 size = 1
@@ -81,15 +86,10 @@ with model:
     # n_hatDUM = pm.Normal("n_hat", mu=0)
     wc = pm.TruncatedNormal("wc", mu=0, sigma=10, lower=0)
     sigma = pm.Normal("sigma", mu=0, sigma=1)
-    v = pm.Uniform("v", lower=0, upper=1, size=3)
-    random_vec = pm.Uniform("random_vec", shape=3, lower=0, upper=1)
-    norm_vec = pt.sqrt(pt.sum(pt.pow(random_vec, 2)))
 
-    # unit vector on the sphere
-    v_hat = pm.Deterministic("v_hat", random_vec / norm_vec)
     # Likelihood (sampling distribution) of observations
     wt_obs = pm.CustomDist(
-        "wt_obs", wc, sigma, size, v, v_hat, dist=true_wt, observed=n_hatDUM
+        "wt_obs", wc, sigma, size, dist=true_wt, observed=n_hatDUM
     )
 
     trace = pm.sample(1000, target_accept=0.80)
