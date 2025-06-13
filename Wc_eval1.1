@@ -65,9 +65,9 @@ def test_wc_min(δ, Bº, B_vec, n_samples=10000):
         print("certain nhat values result in wc being less than one")
         
 
-# Example test
+#test
 δ = 0.1
-Bº = 1.0  # Set to 0 if you want the isotropic case
+Bº = 1  #Bº = 0 for isotropic
 B_vec = np.array([1.0, 1.0, 1.0])
 test_wc_min(δ, Bº, B_vec, n_samples=50000)
 
